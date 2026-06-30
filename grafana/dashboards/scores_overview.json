@@ -1,0 +1,110 @@
+{
+  "uid": "arcade-overview",
+  "title": "Arcade API Overview",
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "5s",
+  "time": {
+    "from": "now-15m",
+    "to": "now"
+  },
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Scores Submitted",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(scores_submitted_total)"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Scores Rejected",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(scores_rejected_total)"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "HTTP Requests",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum(http_requests_total)"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "HTTP Errors (%)",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 0 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "100 * sum(rate(http_requests_total{status=~\"4..|5..\"}[5m])) / sum(rate(http_requests_total[5m]))"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Traffic",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "rate(http_requests_total[1m])"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Latency p95",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Scores Submitted",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "scores_submitted_total"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Cheat Attempts (Rejected Scores)",
+      "datasource": "Prometheus",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "scores_rejected_total"
+        }
+      ]
+    }
+  ]
+}
