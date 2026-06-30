@@ -1,0 +1,11 @@
+services:
+
+  backend:
+    environment:
+      FLASK_ENV: development
+
+    volumes:
+      - ./backend:/app
+      - sqlite_data:/app/data
+
+    command: flask --app app run --host=0.0.0.0 --debug
