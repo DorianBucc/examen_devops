@@ -3,9 +3,9 @@ import os
 from flask import Flask, jsonify, request, Response
 from prometheus_client import Counter, generate_latest
 
-from backend.config import GAMES
-from backend.models import db
-from backend.services import (
+from config import GAMES
+from models import db
+from services import (
     add_score,
     get_leaderboard,
     get_player_scores,

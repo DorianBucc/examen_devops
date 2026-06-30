@@ -1,4 +1,4 @@
-from backend.services import validate_score, sort_scores
+from services import validate_score, sort_scores
 
 def test_valid_score():
     valid, error = validate_score(

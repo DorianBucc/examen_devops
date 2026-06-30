@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
-from backend.models import db, Score
-from backend.config import GAMES
+from models import db, Score
+from config import GAMES
 
 # Cooldown en mémoire (suffisant pour l'exercice)
 last_submit = {}
