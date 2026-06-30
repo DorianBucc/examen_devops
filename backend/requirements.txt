@@ -1,0 +1,6 @@
+Flask
+Flask-Cors
+prometheus-client
+gunicorn
+pytest
+flask_sqlalchemy
