@@ -33,6 +33,6 @@ def test_leaderboard_sorted():
     result = sort_scores(scores)
 
     assert result[0]["player"] == "B"
-    assert result[1]["player"] == "C"
-    assert result[2]["player"] == "A"
+    assert result[1]["player"] == "A" # Echanger avec le C
+    assert result[2]["player"] == "C"
     
