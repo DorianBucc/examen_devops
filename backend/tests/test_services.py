@@ -10,7 +10,6 @@ def test_valid_score():
     assert valid is True
     assert error is None
 
-
 def test_score_too_high():
     valid, error = validate_score(
         "AAA",
@@ -33,6 +32,5 @@ def test_leaderboard_sorted():
     result = sort_scores(scores)
 
     assert result[0]["player"] == "B"
-    assert result[1]["player"] == "A" # Echanger avec le C
-    assert result[2]["player"] == "C"
-    
+    assert result[1]["player"] == "C"
+    assert result[2]["player"] == "A"
