@@ -1,7 +1,7 @@
 import os
-
-from flask import Flask, jsonify, request, Response
-from prometheus_client import Counter, generate_latest
+import time
+from flask import Flask, jsonify, request, Response, g
+from prometheus_client import Counter, generate_latest, Histogram
 
 from config import GAMES
 from models import db
@@ -11,7 +11,20 @@ from services import (
     get_player_scores,
 )
 
+http_requests = Counter(
+    "http_requests_total",
+    "Nombre de requêtes HTTP",
+    ["method", "route", "status"]
+)
+
+http_duration = Histogram(
+    "http_request_duration_seconds",
+    "Temps de réponse HTTP",
+    ["method", "route"]
+)
+
 app = Flask(__name__)
+
 
 
 DATABASE_PATH = os.getenv(
@@ -103,6 +116,37 @@ def metrics():
         mimetype="text/plain"
     )
 
+@app.after_request
+def after_request(response):
+    http_requests.labels(
+        method=request.method,
+        route=request.path,
+        status=response.status_code
+    ).inc()
+
+    return response
+
+@app.before_request
+def before_request():
+    g.start_time = time.time()
+
+@app.after_request
+def after_request(response):
+
+    duration = time.time() - g.start_time
+
+    http_duration.labels(
+        method=request.method,
+        route=request.path
+    ).observe(duration)
+
+    http_requests.labels(
+        method=request.method,
+        route=request.path,
+        status=response.status_code
+    ).inc()
+
+    return response
 
 if __name__ == "__main__":
     app.run(
